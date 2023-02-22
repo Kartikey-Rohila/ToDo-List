@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+        <link href="https://cdn.jsdelivr.net/npm/remixicon@2.5.0/fonts/remixicon.css" rel="stylesheet">
+        
+        <link rel="stylesheet" href="css/item.css">
+        <link rel="stylesheet" href="css/input.css">
+        <link rel="stylesheet" href="css/header.css">
+
+        <title>ToDo List</title>
+    </head>
+    <body>
+        <header class="header" id="header">
+            <div class="header_container container">
+                <div class="header_title">To-Do List</div>
+        
+                <div class="header_items" id="header-items">
+                    <ul class="header_item_list">
+                        <li class="header_item">
+                            <a href="#new_task" class="header_item_link active-link">Home</a>
+                        </li>
+                    </ul>
+        
+                    <div class="header_dark">
+                        <span class="change-theme-name">Dark mode</span>
+                        <i class="ri-moon-line change-theme" id="theme-button"></i>
+                    </div>
+        
+                    <i class="ri-close-linec header_item_close" id="header-item-close"></i>
+                </div>
+        
+                <div class="header_item_toggle" id="header-item-toggle">
+                    <i class="ri-function-line"></i>
+                </div>
+            </div>
+        </header>
+
+        <main class="main">
+            <section class="section" id="new_task">
+                <div id="task_bg">
+                    <div id="task_container" class="container">
+                        <h2 class="section__title" id="task_title">Remember tasks by adding here...</h2>
+
+                        <form id="task_form">
+                            <input type="text" placeholder="Enter your task here" class="task_input" id="task_input_content">
+                            <input type="text" placeholder="Enter Subject Here" class="task_input" id="task_input_subject">
+                            <button class="add_task_button">Add Task</button>
+                        </form>
+                    </div>
+                </div>
+            </section>
+
+            <section class="tasks_list section" id="tasks-list">
+                <div id="tasks" class="task_subject_container">
+                    <div class="task_list">
+                        <input type="text" class="task_subject_name" value="Task Subject">
+                        <div class="task_container container grid">
+                            <div class="task">
+                                <img src="final.jpeg" alt="" class="task_img">
+                                
+                                <div class="task_content">
+                                    <textarea type="text" class="task_text" value ="Lorem ipsum"></textarea>
+                                </div>
+                                
+                                <footer class="actions">
+                                    <button class="button button--flex edit_button">Edit</button>
+                                    <button class="button button--flex delete_button">Delete</button>
+                                </footer>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+        </main>
+        <script src="js/input.js" defer></script>
+        <script src="js/header.js" defer></script>
+
+    </body>
+</html>

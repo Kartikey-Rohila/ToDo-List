@@ -1,0 +1,82 @@
+@import url(base.css);
+
+input {
+  border: none;
+  font-family: var(--body-font);
+  font-size: var(--normal-font-size);
+}
+
+textarea {
+  border: none;
+  font-family: var(--body-font);
+  font-size: var(--normal-font-size);
+  resize: none;
+}
+
+.add_task_button {
+  display: inline-block;
+  background-color: var(--first-color);
+  color: var(--white-color);
+  padding: 1rem 2rem;
+  font-weight: var(--font-semi-bold);
+  transition: .3s;
+}
+
+.add_task_button:hover {
+  background-color: var(--first-color-alt);
+}
+
+#task_bg {
+  background-color: var(--first-color-second);
+  padding: 2.5rem 0;
+}
+
+#task_title {
+  color: var(--white-color);
+}
+
+#task_form {
+  background-color: var(--input-color);
+  padding: 0.5rem;
+  display: flex;
+  justify-content: space-between;
+}
+
+.task_input {
+  width: 70%;
+  padding-right: 0.5rem;
+  background-color: var(--input-color);
+  color: var(--text-color);
+}
+
+.task_input::placeholder {
+  color: var(--text-color);
+}
+
+@media screen and (min-width: 568px) {
+  #task_form {
+    width: 470px;
+    margin: 0 auto;
+  }
+}
+
+@media screen and (min-width: 768px) {
+  body {
+    margin: 0;
+  }
+  .section {
+    padding: 7rem 0 2rem;
+  }
+  #task_bg {
+    background: none;
+    padding: 0;
+  }
+  #task_container {
+    background-color: var(--first-color-second);
+    padding: 3.5rem 0;
+  }
+  .task_input {
+    margin: auto;
+    padding: 0 .5rem;
+  }
+}
