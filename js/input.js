@@ -28,35 +28,33 @@ window.addEventListener('load', () => {
             return;
         }
         
-        const taskContainer = createTaskContainer();
-        
         const task = createTask(taskContent);
-        taskContainer.appendChild(task);
-
+        
         if (map.has(taskSubjectName))
         {
-            const taskList = document.querySelector(taskSubjectName);
-            taskList.appendChild(taskContainer);
-
-            console.log(taskList);
+            const taskContainer = map.get(taskSubjectName);
+            taskContainer.appendChild(task);
         }
         else
         {
             const taskSubject = createTaskSubject(taskSubjectName);
             
+            const taskContainer = createTaskContainer();
+            taskContainer.appendChild(task);
+            
             const taskList = document.createElement("div");
             taskList.classList.add("task_list");
-            taskList.classList.add(taskSubjectName);
-            // taskList.id = taskSubjectName;
+            taskList.id = taskSubjectName;
     
             taskList.appendChild(taskSubject);
             taskList.appendChild(taskContainer);
     
-            console.log(taskList);
             tasks.appendChild(taskList);
-            map.set(taskSubject, taskList);
+            map.set(taskSubjectName, taskContainer);
         }
-        
+
+        // console.log(tasks);
+
         inputContent.value = "";
         inputSubject.value = "";
     });
