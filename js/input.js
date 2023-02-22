@@ -5,14 +5,14 @@ window.addEventListener('load', () => {
     const form = document.querySelector("#task_form");
     const inputContent = document.querySelector("#task_input_content");
     const inputSubject = document.querySelector("#task_input_subject");
-    const list_el = document.querySelector("#tasks-list");
+    const tasks = document.querySelector("#tasks");
 
     form.addEventListener('submit', (e) => {
         e.preventDefault();
 
         const taskContent = inputContent.value;
-        const taskSubject = inputSubject.value;
-        if (!taskContent  &&  !taskSubject)
+        const taskSubjectName = inputSubject.value;
+        if (!taskContent  &&  !taskSubjectName)
         {
             alert("Please enter your task with subject");
             return;
@@ -22,80 +22,139 @@ window.addEventListener('load', () => {
             alert("There is no input task");
             return;
         }
-        if (!taskSubject)
+        if (!taskSubjectName)
         {
             alert("Please provide task subject");
             return;
         }
+        
+        const taskContainer = createTaskContainer();
+        
+        const task = createTask(taskContent);
+        taskContainer.appendChild(task);
 
-        const taskElement = createrTask();
+        if (map.has(taskSubjectName))
+        {
+            const taskList = document.querySelector(taskSubjectName);
+            taskList.appendChild(taskContainer);
+
+            console.log(taskList);
+        }
+        else
+        {
+            const taskSubject = createTaskSubject(taskSubjectName);
+            
+            const taskList = document.createElement("div");
+            taskList.classList.add("task_list");
+            taskList.classList.add(taskSubjectName);
+            // taskList.id = taskSubjectName;
+    
+            taskList.appendChild(taskSubject);
+            taskList.appendChild(taskContainer);
+    
+            console.log(taskList);
+            tasks.appendChild(taskList);
+            map.set(taskSubject, taskList);
+        }
+        
+        inputContent.value = "";
+        inputSubject.value = "";
     });
 })
 
-function createrTask()
+function createTaskSubject(input)
+{
+    const taskSubject = document.createElement("input");
+    taskSubject.classList.add("task_subject_name");
+
+    taskSubject.value = input;
+    taskSubject.setAttribute("readonly", "readonly");
+
+    return taskSubject;
+}
+
+function createTaskContainer()
+{
+    const taskContainer = document.createElement("div");
+    taskContainer.classList.add("task_container");
+    taskContainer.classList.add("container");
+    taskContainer.classList.add("grid");
+
+    return taskContainer;
+}
+
+function createTask(input)
 {
     const task = document.createElement("div");
-    task.classList.add("task_list");
+    task.classList.add("task");
+
+    const taskImage = getTaskImage();
+    const taskElement = getTask(input);
+    const taskFooter = getTaskFooter();
+    const editButton = getEditButton();
+    const deleteButton = getDeleteButton();
+    
+    taskFooter.appendChild(editButton);
+    taskFooter.appendChild(deleteButton);
+
+    task.appendChild(taskImage);
+    task.appendChild(taskElement);
+    task.appendChild(taskFooter);
 
     return task;
 }
 
-function getTaskContent(input)
+function getTaskImage()
 {
-    const taskContent = document.createElement("div");
-    taskContent.classList.add("task_content");
+    const taskImage = document.createElement("img");
+    taskImage.classList.add("task_img");
 
-    const task_input = document.createElement("textarea");
-    task_input.classList.add("task_text");
-    task_input.type = "text";
-    task_input.innerHTML = input;
-    task_input.setAttribute("readonly", "readonly");
-
-    taskContent.appendChild(task_input);
-    return taskContent;
+    taskImage.src = "final.jpeg";
+    return taskImage;
 }
 
-function getContentElement()
+function getTask(input)
 {
-    const task_content_el = document.createElement("div");
-    task_content_el.classList.add("task_content");
+    const taskElement = document.createElement("div");
+    taskElement.classList.add("task_content");
+    
+    const taskContent = document.createElement("textarea");
+    taskContent.classList.add("task_text");
+    
+    taskContent.type = "text";
+    taskContent.innerHTML = input;
+    taskContent.setAttribute("readonly", "readonly");
 
-    return task_content_el;
+    taskElement.appendChild(taskContent);
+    return taskElement;
 }
 
-function getTaskInput(task)
+function getTaskFooter()
 {
-    const task_input_el = document.createElement("input");
-    task_input_el.classList.add("task_text");
-    task_input_el.type = "text";
-    task_input_el.value = task;
-    task_input_el.setAttribute("readonly", "readonly");
+    const taskFooter = document.createElement("footer");
+    taskFooter.classList.add("actions");
 
-    return task_input_el;
+    return taskFooter;
 }
 
-function getActionElement()
+function getEditButton()
 {
-    const task_actions_el = document.createElement("footer");
-    task_actions_el.classList.add("actions");
+    const editButton = document.createElement("button");
+    editButton.innerHTML = "Edit";
+    editButton.classList.add("button");
+    editButton.classList.add("button--flex");
+    editButton.classList.add("edit_button");
 
-    return task_actions_el;
+    return editButton;
 }
 
-function getEditElement()
+function getDeleteButton()
 {
-    const task_edit_el = document.createElement("button");
-    task_edit_el.classList.add("edit_button");
-    task_edit_el.innerHTML = "Edit";
+    const deleteButton = document.createElement("button");
+    deleteButton.innerHTML = "Delete";
+    deleteButton.classList.add("button");
+    deleteButton.classList.add("button--flex");
+    deleteButton.classList.add("delete_button");
 
-    return task_edit_el;
-}
-
-function getDeleteElement()
-{
-    const task_delete_el = document.createElement("button");
-    task_delete_el.classList.add("delete_button");
-    task_delete_el.innerHTML = "Delete";
-
-    return task_delete_el;
+    return deleteButton;
 }

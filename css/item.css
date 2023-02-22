@@ -164,7 +164,8 @@
     padding: 7rem 0 2rem;
   }
   .task_container {
-    padding-top: 2rem;
+    padding-top: 0.5rem;
+    padding-bottom: 1rem;
   }
 }
 
