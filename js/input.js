@@ -1,5 +1,7 @@
-const id = 1;
-const map = new Map();
+let idNumber = 1;
+const subjectMap = new Map();
+const editMapping = new Map();
+const deleteMapping = new Map();
 
 window.addEventListener('load', () => {
     const form = document.querySelector("#task_form");
@@ -30,9 +32,9 @@ window.addEventListener('load', () => {
         
         const task = createTask(taskContent);
         
-        if (map.has(taskSubjectName))
+        if (subjectMap.has(taskSubjectName))
         {
-            const taskContainer = map.get(taskSubjectName);
+            const taskContainer = subjectMap.get(taskSubjectName);
             taskContainer.appendChild(task);
         }
         else
@@ -50,15 +52,17 @@ window.addEventListener('load', () => {
             taskList.appendChild(taskContainer);
     
             tasks.appendChild(taskList);
-            map.set(taskSubjectName, taskContainer);
+            subjectMap.set(taskSubjectName, taskContainer);
         }
-
-        // console.log(tasks);
 
         inputContent.value = "";
         inputSubject.value = "";
+        
+        const footer = task.childNodes.item(2);
+        taskActions(footer, task.parentNode);
     });
 })
+
 
 function createTaskSubject(input)
 {
@@ -66,6 +70,7 @@ function createTaskSubject(input)
     taskSubject.classList.add("task_subject_name");
 
     taskSubject.value = input;
+    taskSubject.type = "text";
     taskSubject.setAttribute("readonly", "readonly");
 
     return taskSubject;
@@ -85,19 +90,30 @@ function createTask(input)
 {
     const task = document.createElement("div");
     task.classList.add("task");
+    task.id = idNumber;
+    idNumber += 1;
 
     const taskImage = getTaskImage();
     const taskElement = getTask(input);
     const taskFooter = getTaskFooter();
+    
     const editButton = getEditButton();
+    editButton.id = idNumber;
+    idNumber += 1;
+    
     const deleteButton = getDeleteButton();
+    deleteButton.id = idNumber;
+    idNumber += 1;
     
     taskFooter.appendChild(editButton);
     taskFooter.appendChild(deleteButton);
-
+    
     task.appendChild(taskImage);
     task.appendChild(taskElement);
     task.appendChild(taskFooter);
+    
+    editMapping.set(editButton.id, task.id);
+    deleteMapping.set(deleteButton.id, task.id);
 
     return task;
 }
@@ -138,7 +154,7 @@ function getTaskFooter()
 function getEditButton()
 {
     const editButton = document.createElement("button");
-    editButton.innerHTML = "Edit";
+    editButton.innerText = "Edit";
     editButton.classList.add("button");
     editButton.classList.add("button--flex");
     editButton.classList.add("edit_button");
@@ -155,4 +171,69 @@ function getDeleteButton()
     deleteButton.classList.add("delete_button");
 
     return deleteButton;
+}
+
+function taskActions(footer, taskContainer)
+{
+    const editButton = footer.childNodes.item(0);
+    const deleteButton = footer.childNodes.item(1);
+
+    const task = footer.parentNode;
+
+    editButton.addEventListener('click', () => {
+
+        const taskContent = task.childNodes.item(1);
+        const taskDetail = taskContent.childNodes.item(0);
+
+        if (editButton.innerText.toLowerCase() == "edit")
+        {
+            taskDetail.removeAttribute("readonly");
+            taskDetail.focus();
+            editButton.innerText = "Save";
+        }
+        else
+        {
+            taskDetail.setAttribute("readonly", "readonly");
+            editButton.innerText = "Edit";
+        }
+    });
+    
+    deleteButton.addEventListener('click', () => {
+
+        // const deleteNotification = document.getElementById("deleteNotification");
+        // deleteNotification.show();
+
+        // const yesButton = document.getElementById("yesButton");
+        // const noButton = document.getElementById("noButton");
+
+        // yesButton.addEventListener('click', () => {
+        //     deleteNotification.close();
+        //     console.log("yes button");
+        //     taskContainer.removeChild(task);
+        // });
+        // noButton.addEventListener('click', () => {
+        //     deleteNotification.close();
+        //     console.log("No button");
+        // })
+
+        taskContainer.removeChild(task);
+
+        const childCount = taskContainer.childElementCount;
+        if (childCount == 0)
+        {
+            const taskList = taskContainer.parentNode;
+            
+            const tasks = taskList.parentNode;
+            const taskSubjectName = taskList.childNodes.item(0).value;
+
+            tasks.removeChild(taskList);
+            
+            subjectMap.delete(taskSubjectName);
+            editMapping.delete(editButton.id);
+            deleteMapping.delete(deleteButton.id);
+        }
+    });
+
+    // console.log(editMapping.get(editButton.id));
+    // console.log(deleteMapping.get(deleteButton.id));
 }
