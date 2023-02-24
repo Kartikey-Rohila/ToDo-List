@@ -209,7 +209,7 @@ function taskActions(footer, taskContainer)
         // yesButton.addEventListener('click', () => {
         //     deleteNotification.close();
         //     console.log("yes button");
-        //     taskContainer.removeChild(task);
+        //     // taskContainer.removeChild(task);
         // });
         // noButton.addEventListener('click', () => {
         //     deleteNotification.close();
